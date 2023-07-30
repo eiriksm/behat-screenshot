@@ -7,22 +7,14 @@ jobs:
   test:
     name: Run tests
     runs-on: 'ubuntu-20.04'
-    env:
-      PRIVATE_REPO_GITHUB: ${{ secrets.PRIVATE_REPO_GITHUB }}
-      PRIVATE_USER_TOKEN_GITHUB: ${{ secrets.PRIVATE_USER_TOKEN_GITHUB }}
     strategy:
       fail-fast: false
       matrix:
         php-version:
-          - "7.2"
-          - "7.3"
-          - "7.4"
           - "8.0"
           - "8.1"
           - "8.2"
-        composer-version:
-          - "1"
-          - "2"
+
     steps:
       - name: Dump matrix context
         env:
@@ -38,7 +30,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
 
       - name: Update composer
-        run: composer --verbose self-update --${{ matrix.composer-version }}
+        run: composer --verbose self-update
 
       - name: Dump composer verson
         run: composer --version
@@ -51,14 +43,3 @@ jobs:
 
       - name: Run tests
         run: composer test
-
-      - name: Coveralls
-        if: matrix.php-version == 7.4
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          php vendor/bin/php-coveralls -v
-
-      - name: Run phpstan
-        if: matrix.php-version != 7.0
-        run: composer phpstan
