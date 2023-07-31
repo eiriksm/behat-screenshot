@@ -30,7 +30,6 @@
     },
     "require-dev": {
         "phpspec/phpspec": "^7",
-        "jakoch/phantomjs-installer": "^2.1.1-p07",
         "behat/mink-selenium2-driver": "^1.3.0",
         "bex/behat-screenshot-image-driver-dummy": "^1.0"
     },
